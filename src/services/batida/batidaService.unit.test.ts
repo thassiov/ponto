@@ -3,12 +3,8 @@ import { nextSaturday, nextSunday } from 'date-fns';
 import { IBatidaDto } from '../../models';
 import { BatidaRepository } from '../../repos/batida';
 import { MensagensDeErro } from '../../utils/error';
+import { getIsoDateString } from '../../utils/testes/mocks/getIsoDateString';
 import { BatidaService } from './batidaService';
-
-function getIsoDateString(data = new Date()): string {
-  data.setMilliseconds(0);
-  return data.toISOString();
-}
 
 describe('batida service', () => {
   const mockBatidaRepo = {
