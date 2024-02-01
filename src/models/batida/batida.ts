@@ -5,12 +5,14 @@ import { sequelize } from '../db';
 
 const pontoSchema = z.object({
   id: z.number().min(1),
-  momento: z.coerce.date(),
+  idDeUsuario: z.number().min(1),
+  momento: z.string(),
   momentoDate: z.date(),
 });
 
 const pontoDtoSchema = z.object({
-  momento: z.coerce.date(),
+  idDeUsuario: z.number().min(1),
+  momento: z.string(),
   momentoDate: z.date().optional(),
 });
 
@@ -22,10 +24,13 @@ Batida.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    idDeUsuario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     momento: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     momentoDate: {
       type: DataTypes.DATE,

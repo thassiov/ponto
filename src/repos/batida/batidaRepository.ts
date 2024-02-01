@@ -13,6 +13,10 @@ class BatidaRepository {
     return 1;
   }
 
+  async jaFoiRegistrada(_: IBatidaDto): Promise<boolean> {
+    return false;
+  }
+
   private async getTransaction(): Promise<Transaction> {
     const t = await this.sequelize.transaction();
     return t;

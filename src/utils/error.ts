@@ -49,4 +49,5 @@ export class ValidationError extends CustomError {
 
 export enum MensagensDeErro {
   ERRO_CRIACAO_BATIDA_FIM_DE_SEMANA = 'Sábado e domingo não são permitidos como dia de trabalho',
+  ERRO_CRIACAO_BATIDA_JA_REGISTRADA = 'Horário já registrado',
 }
