@@ -21,7 +21,7 @@ class BatidaService {
 
       return result;
     } catch (error) {
-      throw new ServiceError('Erro ao criar batida', {
+      throw new ServiceError('Falha ao criar batida', {
         cause: error as Error,
         details: { input: batida },
       });
@@ -38,11 +38,29 @@ class BatidaService {
       );
     }
 
-    const jaRegistrada = await this.repo.jaFoiRegistrada(batida);
-
-    if (jaRegistrada) {
+    if (await this.repo.jaFoiRegistrada(batida)) {
       throw new ValidationError(
         MensagensDeErro.ERRO_CRIACAO_BATIDA_JA_REGISTRADA,
+        {
+          details: { input: batida },
+        }
+      );
+    }
+
+    if (await this.repo.jaPossuiNumeroMaximoDeBatidas(batida)) {
+      throw new ValidationError(
+        MensagensDeErro.ERRO_CRIACAO_BATIDA_NUMERO_MAXIMO_REGISTRADO,
+        {
+          details: { input: batida },
+        }
+      );
+    }
+
+    // isso deve ocorrer na terceira batida, presumindo que o usuario
+    // saiu para o almoco (tem a primeira entrada e saida do dia ja registradas)
+    if (await this.repo.aindaEstaEmHorarioObrigatorioDeAlmoco(batida)) {
+      throw new ValidationError(
+        MensagensDeErro.ERRO_CRIACAO_BATIDA_TEMPO_MINIMO_DE_ALMOCO,
         {
           details: { input: batida },
         }

@@ -17,6 +17,15 @@ class BatidaRepository {
     return false;
   }
 
+  async jaPossuiNumeroMaximoDeBatidas(_: IBatidaDto): Promise<boolean> {
+    return false;
+  }
+
+  // esse nome e meio grande mas foi o que deu
+  async aindaEstaEmHorarioObrigatorioDeAlmoco(_: IBatidaDto): Promise<boolean> {
+    return false;
+  }
+
   private async getTransaction(): Promise<Transaction> {
     const t = await this.sequelize.transaction();
     return t;
