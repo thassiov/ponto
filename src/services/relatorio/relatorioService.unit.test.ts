@@ -4,5 +4,7 @@ describe('relatorioService', () => {
     jest.resetAllMocks();
   });
 
-  describe('criacao', () => {});
+  describe('criacao', () => {
+    it('cria um relatorio do mes', async () => {});
+  });
 });

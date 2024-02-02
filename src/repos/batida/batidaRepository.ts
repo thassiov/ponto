@@ -1,7 +1,7 @@
 import { differenceInMinutes, endOfDay, startOfDay } from 'date-fns';
 import { ModelStatic, Op, Sequelize, Transaction } from 'sequelize';
 
-import { Batida, IBatidaDto } from '../../models';
+import { Batida, IBatida, IBatidaDto } from '../../models';
 import { configs } from '../../utils/configs';
 import { RepositoryError } from '../../utils/error';
 
@@ -28,6 +28,34 @@ class BatidaRepository {
           },
         }
       );
+    }
+  }
+
+  async listarPontosDeUsuarioEmPeriodo(
+    idDeUsuario: number,
+    de: Date,
+    ate: Date
+  ): Promise<IBatida[]> {
+    try {
+      const result = await this.db.findAll<Batida>({
+        where: {
+          idDeUsuario: {
+            [Op.eq]: idDeUsuario,
+          },
+          momentoDate: {
+            [Op.between]: [de, ate],
+          },
+        },
+      });
+
+      return result.map((b) => b.toJSON() as IBatida);
+    } catch (error) {
+      throw new RepositoryError('Erro ao listar pontos durante periodo', {
+        cause: error as Error,
+        details: {
+          input: { idDeUsuario, de, ate },
+        },
+      });
     }
   }
 
