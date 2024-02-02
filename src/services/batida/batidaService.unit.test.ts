@@ -12,6 +12,7 @@ describe('batida service', () => {
     jaFoiRegistrada: jest.fn(),
     jaPossuiNumeroMaximoDeBatidas: jest.fn(),
     aindaEstaEmHorarioObrigatorioDeAlmoco: jest.fn(),
+    eAnteriorAUltimaBatidaNoMesmoDia: jest.fn(),
   };
 
   afterEach(() => {
@@ -99,6 +100,31 @@ describe('batida service', () => {
       );
     });
 
+    it('falha ao tentar criar uma batida cuja hora e anterior a ultima batida registrada no dia', async () => {
+      const mockData = new Date();
+      const mockIsoData = getIsoDateString(mockData);
+
+      const mockBatida = {
+        idDeUsuario: 1,
+        momento: mockIsoData,
+      } as IBatidaDto;
+
+      (mockBatidaRepo.jaFoiRegistrada as jest.Mock).mockResolvedValueOnce(
+        false
+      );
+      (
+        mockBatidaRepo.eAnteriorAUltimaBatidaNoMesmoDia as jest.Mock
+      ).mockResolvedValueOnce(true);
+
+      const batidaService = new BatidaService(
+        mockBatidaRepo as any as BatidaRepository
+      );
+
+      expect(() => batidaService.criar(mockBatida)).rejects.toThrow(
+        MensagensDeErro.ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA
+      );
+    });
+
     it('falha ao tentar criar mais de 4 batidas em um dia', async () => {
       const mockData = new Date();
       const mockIsoData = getIsoDateString(mockData);
@@ -152,7 +178,5 @@ describe('batida service', () => {
         MensagensDeErro.ERRO_CRIACAO_BATIDA_TEMPO_MINIMO_DE_ALMOCO
       );
     });
-
-    it.todo('falha ao tentar criar uma batida para um dia que nao e o atual');
   });
 });

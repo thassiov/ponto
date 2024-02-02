@@ -47,6 +47,15 @@ class BatidaService {
       );
     }
 
+    if (await this.repo.eAnteriorAUltimaBatidaNoMesmoDia(batida)) {
+      throw new ValidationError(
+        MensagensDeErro.ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA,
+        {
+          details: { input: batida },
+        }
+      );
+    }
+
     if (await this.repo.jaPossuiNumeroMaximoDeBatidas(batida)) {
       throw new ValidationError(
         MensagensDeErro.ERRO_CRIACAO_BATIDA_NUMERO_MAXIMO_REGISTRADO,
