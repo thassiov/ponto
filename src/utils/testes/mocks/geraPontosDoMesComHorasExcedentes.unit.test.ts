@@ -7,7 +7,7 @@ import {
 
 import { IAnoMes, IBatida } from '../../../models';
 import { segundosUteisEmMes } from '../../segundosUteisEmMes';
-import { geraPontosDoMesComHorasExcedentes } from './geraPontosDoMesComHoraExcedentes';
+import { geraPontosDoMesComHorasExcedentes } from './geraPontosDoMesComHorasExcedentes';
 
 describe('geraPontosDoMesComHorasExcedentes', () => {
   it.todo('gera pontos no mes de %p com %p dias uteis e %p horas excedentes');
