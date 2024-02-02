@@ -24,25 +24,28 @@ function geraPontosDoMesComHorasUteisCompletas(
       continue;
     }
 
-    const oitoHoras = new Date(diaDoMes);
-    oitoHoras.setHours(8, 0, 0);
-    const meioDia = new Date(diaDoMes);
-    meioDia.setHours(12, 0, 0);
-    const quatorzeHoras = new Date(diaDoMes);
-    quatorzeHoras.setHours(14, 0, 0);
-    const dezoitoHoras = new Date(diaDoMes);
-    dezoitoHoras.setHours(18, 0, 0);
+    const inicioDeExpediente = new Date(diaDoMes);
+    inicioDeExpediente.setHours(8, 0, 0);
+    const saidaParaAlmoco = new Date(diaDoMes);
+    saidaParaAlmoco.setHours(12, 0, 0);
+    const voltaDoAlmoco = new Date(diaDoMes);
+    voltaDoAlmoco.setHours(14, 0, 0);
+    const fimDoExpediente = new Date(diaDoMes);
+    fimDoExpediente.setHours(18, 0, 0);
 
-    [oitoHoras, meioDia, quatorzeHoras, dezoitoHoras].forEach(
-      (momentoDate: Date) => {
-        batidas.push({
-          id: Math.floor(Math.random() * 1000),
-          idDeUsuario,
-          momentoDate,
-          momento: getIsoDateString(momentoDate),
-        });
-      }
-    );
+    [
+      inicioDeExpediente,
+      saidaParaAlmoco,
+      voltaDoAlmoco,
+      fimDoExpediente,
+    ].forEach((momentoDate: Date) => {
+      batidas.push({
+        id: Math.floor(Math.random() * 1000),
+        idDeUsuario,
+        momentoDate,
+        momento: getIsoDateString(momentoDate),
+      });
+    });
   }
 
   return batidas;
