@@ -7,9 +7,9 @@ import {
 
 import { IAnoMes, IBatida } from '../../../models';
 import { segundosUteisEmMes } from '../../segundosUteisEmMes';
-import { geraPontosDoMesComHorasExcedentes } from './geraPontosDoMesComHorasExcedentes';
+import { geraPontosDoMesComHorasDevidas } from './geraPontosDoMesComHorasDevidas';
 
-describe('geraPontosDoMesComHorasExcedentes', () => {
+describe('geraPontosDoMesComHorasDevidas', () => {
   it.each([
     [
       '2018-03',
@@ -57,15 +57,15 @@ describe('geraPontosDoMesComHorasExcedentes', () => {
       108000,
     ],
   ])(
-    'gera pontos no mes de %p com %p dias uteis e %p segundos excedentes',
+    'gera pontos no mes de %p com %p dias uteis e %p segundos devidos',
     async (
       anoMes: IAnoMes,
       diasUteis: number,
-      horasExcedentesEmSegundos: number
+      horasDevidasEmSegundos: number
     ) => {
-      const result = geraPontosDoMesComHorasExcedentes(
+      const result = geraPontosDoMesComHorasDevidas(
         anoMes,
-        horasExcedentesEmSegundos
+        horasDevidasEmSegundos
       );
 
       let somatoria = 0;
@@ -83,7 +83,7 @@ describe('geraPontosDoMesComHorasExcedentes', () => {
       }
       const segundosUteis = segundosUteisEmMes(anoMes);
       expect(result.length / 4).toEqual(diasUteis);
-      expect(somatoria - segundosUteis).toEqual(horasExcedentesEmSegundos);
+      expect(segundosUteis - somatoria).toEqual(horasDevidasEmSegundos);
     }
   );
 });
