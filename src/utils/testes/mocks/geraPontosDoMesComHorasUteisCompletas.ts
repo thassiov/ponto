@@ -7,22 +7,20 @@ function geraPontosDoMesComHorasUteisCompletas(
   anoMes: IAnoMes,
   idDeUsuario = 1
 ): IBatida[] {
-  const inicioDoMesDia = startOfMonth(anoMes).getDate();
-  const fimDoMesDia = endOfMonth(anoMes).getDate();
+  const [ano, mes]: string[] = anoMes.split('-');
+  const dataBase = new Date(
+    parseInt(ano as string),
+    parseInt(mes as string) - 1
+  );
+  const inicioDoMesDia = startOfMonth(dataBase).getDate();
+  const fimDoMesDia = endOfMonth(dataBase).getDate();
   const batidas: IBatida[] = [];
 
   for (let index = inicioDoMesDia; index < fimDoMesDia; index++) {
-    // @NOTE bug or something: por algum motivo, quando a iteracao chega no
-    // numero 10, esse Date, que deveria criar o dia 10 do dado mes, na verdade
-    // cria outra vez o dia 9. Dai o index e o dia ficam dessincronizados e nao sei
-    // como resolver. Ja tentei um monte de coisas. Talvez o problema seja eu, mas
-    // sei la. Vou fazer commit disso pra olhar depois.
-    let diaDoMes = new Date(`${anoMes}-${index > 10 ? '0' + index : index}`);
-
-    console.log(diaDoMes.getDate(), index);
+    const diaDoMes = new Date(dataBase);
+    diaDoMes.setDate(index);
 
     if (isWeekend(diaDoMes)) {
-      console.log('fds', diaDoMes.getDate(), index);
       continue;
     }
 
@@ -46,6 +44,7 @@ function geraPontosDoMesComHorasUteisCompletas(
       }
     );
   }
+
   return batidas;
 }
 

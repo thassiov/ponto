@@ -8,36 +8,36 @@ describe('geraPontosDoMesComHorasUteisCompletasdifferenceInBusinessDays', () => 
     [
       '2018-03',
       differenceInBusinessDays(
-        endOfMonth(new Date('2018-03')),
-        startOfMonth(new Date('2018-03'))
+        endOfMonth(new Date(2018, 2)),
+        startOfMonth(new Date(2018, 2))
       ),
     ],
     [
       '2019-03',
       differenceInBusinessDays(
-        endOfMonth(new Date('2019-03')),
-        startOfMonth(new Date('2019-03'))
+        endOfMonth(new Date(2019, 2)),
+        startOfMonth(new Date(2019, 2))
       ),
     ],
     [
       '2024-01',
       differenceInBusinessDays(
-        endOfMonth(new Date('2024-01')),
-        startOfMonth(new Date('2024-01'))
+        endOfMonth(new Date(2024, 0)),
+        startOfMonth(new Date(2024, 0))
       ),
     ],
     [
       '2023-06',
       differenceInBusinessDays(
-        endOfMonth(new Date('2023-06')),
-        startOfMonth(new Date('2023-06'))
+        endOfMonth(new Date(2023, 5)),
+        startOfMonth(new Date(2023, 5))
       ),
     ],
     [
       '1984-08',
       differenceInBusinessDays(
-        endOfMonth(new Date('1984-08')),
-        startOfMonth(new Date('1984-08'))
+        endOfMonth(new Date(1984, 7)),
+        startOfMonth(new Date(1984, 7))
       ),
     ],
   ])(
