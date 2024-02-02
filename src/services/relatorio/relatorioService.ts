@@ -11,6 +11,7 @@ import {
 import { IAnoMes, IBatida, IExpediente, IRelatorio } from '../../models';
 import { BatidaRepository } from '../../repos/batida';
 import { MensagensDeErro, ServiceError } from '../../utils/error';
+import { segundosUteisEmMes } from '../../utils/segundosUteisEmMes';
 
 class RelatorioService {
   constructor(private readonly repo: BatidaRepository) {}
@@ -33,7 +34,7 @@ class RelatorioService {
         throw new Error(MensagensDeErro.ERRO_CRIACAO_RELATORIO_NAO_ENCONTRADO);
       }
 
-      const segundosUteis = this.segundosUteisDurantePeriodo(de, ate);
+      const segundosUteis = segundosUteisEmMes(anoMes);
       const segundosTrabalhados = this.segundosTrabalhados(pontos);
       const diferenca = this.diferencaEntreSegundosTrabalhadosEUteis(
         segundosTrabalhados,
@@ -65,14 +66,6 @@ class RelatorioService {
         details: { input: { anoMes, idDeUsuario } },
       });
     }
-  }
-
-  // ao inves de contar as horas uteis, vamos contar os segundos uteis
-  // para ter uma acuracia maior durante a criacao dos reports em ISO
-  private segundosUteisDurantePeriodo(de: Date, ate: Date): number {
-    const diasUteis = differenceInBusinessDays(ate, de);
-    const segundosUteis = hoursToSeconds(diasUteis * 8);
-    return segundosUteis;
   }
 
   // presume-se que um periodo valido de trabalho ocorre entre dois pontos (entrada e saida).
