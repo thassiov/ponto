@@ -7,6 +7,13 @@ import {
   pontoSchema,
 } from './batida';
 import { sequelize } from './db';
+import { IExpediente, expedienteSchema } from './expediente';
+import {
+  IAnoMes,
+  IRelatorio,
+  anoMesSchema,
+  relatorioSchema,
+} from './relatorio';
 
 async function initDB(): Promise<void> {
   try {
@@ -26,4 +33,10 @@ export {
   Batida,
   sequelize,
   initDB,
+  IRelatorio,
+  relatorioSchema,
+  IExpediente,
+  expedienteSchema,
+  anoMesSchema,
+  IAnoMes,
 };

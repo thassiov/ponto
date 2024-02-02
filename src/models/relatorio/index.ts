@@ -1,3 +1,8 @@
-import { IRelatorio, relatorioSchema } from './relatorio';
+import {
+  IAnoMes,
+  IRelatorio,
+  anoMesSchema,
+  relatorioSchema,
+} from './relatorio';
 
-export { IRelatorio, relatorioSchema };
+export { IRelatorio, relatorioSchema, IAnoMes, anoMesSchema };
