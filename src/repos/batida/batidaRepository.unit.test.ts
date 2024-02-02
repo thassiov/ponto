@@ -1,4 +1,4 @@
-import { addMinutes } from 'date-fns';
+import { addHours, addMinutes, subHours } from 'date-fns';
 import { Sequelize, Transaction } from 'sequelize';
 
 import { Batida, IBatidaDto } from '../../models';
@@ -57,11 +57,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
-
         jest.spyOn(Batida, 'findOne').mockResolvedValueOnce({} as Batida);
 
         jest.spyOn(sequelize, 'model').mockReturnValueOnce(Batida);
@@ -81,10 +76,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest.spyOn(Batida, 'findOne').mockResolvedValueOnce(null);
 
@@ -93,6 +84,77 @@ describe('Batida repo', () => {
         const batidaRepository = new BatidaRepository(sequelize);
 
         const result = await batidaRepository.jaFoiRegistrada(mockBatida);
+
+        expect(result).toEqual(false);
+      });
+    });
+
+    describe('verificacao de viagem no tempo (nao sei como nomear essa suite)', () => {
+      it('verifica que a batida enviada tem tempo anterior a ultima batida registrada no dia', async () => {
+        const mockBatida = {
+          idDeUsuario: 1,
+          momento: getIsoDateString(),
+          momentoDate: new Date(),
+        } as IBatidaDto;
+
+        const sequelize = new Sequelize();
+
+        jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([
+          {
+            get: () => addHours(mockBatida.momentoDate as Date, 1),
+          } as Batida,
+        ]);
+
+        jest.spyOn(sequelize, 'model').mockReturnValueOnce(Batida);
+
+        const batidaRepository = new BatidaRepository(sequelize);
+
+        const result =
+          await batidaRepository.eAnteriorAUltimaBatidaNoMesmoDia(mockBatida);
+
+        expect(result).toEqual(true);
+      });
+
+      it('verifica que a batida enviada nao tem tempo anterior a ultima batida registrada no dia (primeira batida do dia)', async () => {
+        const mockBatida = {
+          idDeUsuario: 1,
+          momento: getIsoDateString(),
+          momentoDate: new Date(),
+        } as IBatidaDto;
+
+        const sequelize = new Sequelize();
+        jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([]);
+
+        jest.spyOn(sequelize, 'model').mockReturnValueOnce(Batida);
+
+        const batidaRepository = new BatidaRepository(sequelize);
+
+        const result =
+          await batidaRepository.eAnteriorAUltimaBatidaNoMesmoDia(mockBatida);
+
+        expect(result).toEqual(false);
+      });
+
+      it('verifica que a batida enviada nao tem tempo anterior a ultima batida registrada no dia (primeira batida do dia)', async () => {
+        const mockBatida = {
+          idDeUsuario: 1,
+          momento: getIsoDateString(),
+          momentoDate: new Date(),
+        } as IBatidaDto;
+
+        const sequelize = new Sequelize();
+        jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([
+          {
+            get: () => subHours(mockBatida.momentoDate as Date, 1),
+          } as Batida,
+        ]);
+
+        jest.spyOn(sequelize, 'model').mockReturnValueOnce(Batida);
+
+        const batidaRepository = new BatidaRepository(sequelize);
+
+        const result =
+          await batidaRepository.eAnteriorAUltimaBatidaNoMesmoDia(mockBatida);
 
         expect(result).toEqual(false);
       });
@@ -107,10 +169,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest.spyOn(Batida, 'count').mockResolvedValueOnce(4);
 
@@ -132,10 +190,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest.spyOn(Batida, 'count').mockResolvedValueOnce(3);
 
@@ -161,10 +215,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([
           {} as any as Batida,
@@ -195,10 +245,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([
           {} as any as Batida,
@@ -228,10 +274,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest
           .spyOn(Batida, 'findAll')
@@ -258,10 +300,6 @@ describe('Batida repo', () => {
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
-        const mockTransaction = new Transaction(sequelize, {});
-        jest
-          .spyOn(sequelize, 'transaction')
-          .mockResolvedValueOnce(mockTransaction);
 
         jest
           .spyOn(Batida, 'findAll')

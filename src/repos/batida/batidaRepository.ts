@@ -1,4 +1,4 @@
-import { differenceInMinutes, endOfDay, startOfDay } from 'date-fns';
+import { differenceInMinutes, endOfDay, isBefore, startOfDay } from 'date-fns';
 import { ModelStatic, Op, Sequelize, Transaction } from 'sequelize';
 
 import { Batida, IBatida, IBatidaDto } from '../../models';
@@ -80,6 +80,50 @@ class BatidaRepository {
     } catch (error) {
       throw new RepositoryError(
         'Erro ao verificar se uma batida ja foi registrada',
+        {
+          cause: error as Error,
+          details: {
+            input: batidaDto,
+          },
+        }
+      );
+    }
+  }
+
+  async eAnteriorAUltimaBatidaNoMesmoDia(
+    batidaDto: IBatidaDto
+  ): Promise<boolean> {
+    try {
+      const result = await this.db.findAll<Batida>({
+        where: {
+          idDeUsuario: {
+            [Op.eq]: batidaDto.idDeUsuario,
+          },
+          momentoDate: {
+            [Op.between]: [
+              startOfDay(batidaDto.momentoDate as Date),
+              endOfDay(batidaDto.momentoDate as Date),
+            ],
+          },
+        },
+      });
+
+      if (!result.length) {
+        return false;
+      }
+
+      const ultimaBatidaRegistrada = (result[result.length - 1] as Batida).get(
+        'momentoDate'
+      ) as Date;
+
+      if (isBefore(ultimaBatidaRegistrada, batidaDto.momentoDate as Date)) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      throw new RepositoryError(
+        'Erro ao verificar se a batida esta completamente errada',
         {
           cause: error as Error,
           details: {
