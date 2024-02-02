@@ -2,13 +2,15 @@ import {
   differenceInBusinessDays,
   differenceInSeconds,
   endOfMonth,
+  formatISODuration,
+  format as formatTime,
   hoursToSeconds,
   startOfMonth,
 } from 'date-fns';
 
-import { IAnoMes, IBatida, IRelatorio } from '../../models';
+import { IAnoMes, IBatida, IExpediente, IRelatorio } from '../../models';
 import { BatidaRepository } from '../../repos/batida';
-import { ServiceError } from '../../utils/error';
+import { MensagensDeErro, ServiceError } from '../../utils/error';
 
 class RelatorioService {
   constructor(private readonly repo: BatidaRepository) {}
@@ -20,7 +22,6 @@ class RelatorioService {
     try {
       const de = startOfMonth(anoMes);
       const ate = endOfMonth(anoMes);
-      const segundosUteis = this.segundosUteisDurantePeriodo(de, ate);
 
       const pontos = await this.repo.listarPontosDeUsuarioEmPeriodo(
         idDeUsuario,
@@ -28,6 +29,11 @@ class RelatorioService {
         ate
       );
 
+      if (!pontos.length) {
+        throw new Error(MensagensDeErro.ERRO_CRIACAO_RELATORIO_NAO_ENCONTRADO);
+      }
+
+      const segundosUteis = this.segundosUteisDurantePeriodo(de, ate);
       const segundosTrabalhados = this.segundosTrabalhados(pontos);
       const diferenca = this.diferencaEntreSegundosTrabalhadosEUteis(
         segundosTrabalhados,
@@ -42,7 +48,17 @@ class RelatorioService {
         excedente = diferenca;
       }
 
-      return {} as IRelatorio;
+      const expedientes = this.gerarExpedientes(pontos);
+
+      const relatorio: IRelatorio = {
+        anoMes,
+        expedientes,
+        horasTrabalhadas: formatISODuration({ seconds: segundosTrabalhados }),
+        horasExcedentes: formatISODuration({ seconds: excedente }),
+        horasDevidas: formatISODuration({ seconds: devidas }),
+      };
+
+      return relatorio;
     } catch (error) {
       throw new ServiceError('Falha ao gerar relatorio', {
         cause: error as Error,
@@ -53,7 +69,7 @@ class RelatorioService {
 
   // ao inves de contar as horas uteis, vamos contar os segundos uteis
   // para ter uma acuracia maior durante a criacao dos reports em ISO
-  segundosUteisDurantePeriodo(de: Date, ate: Date): number {
+  private segundosUteisDurantePeriodo(de: Date, ate: Date): number {
     const diasUteis = differenceInBusinessDays(ate, de);
     const segundosUteis = hoursToSeconds(diasUteis * 8);
     return segundosUteis;
@@ -114,15 +130,35 @@ class RelatorioService {
     return registro.segundos;
   }
 
-  diferencaEntreSegundosTrabalhadosEUteis(
+  private diferencaEntreSegundosTrabalhadosEUteis(
     segundosTrabalhados: number,
     segundosUteis: number
   ): number {
     return segundosTrabalhados - segundosUteis;
   }
 
-  gerarPontosSimplificados(_: IBatida[]): void {
-    // @TODO o schema ja esta pronto, so falta importar
+  private gerarExpedientes(batidas: IBatida[]): IExpediente[] {
+    if (!batidas.length) {
+      return [];
+    }
+
+    const expedientes: { [diaDoMes: string]: IExpediente } = {};
+
+    batidas.forEach((batida: IBatida) => {
+      const diaDoMes = batida.momentoDate.getDate().toString();
+      const horaDaBatida = formatTime(batida.momentoDate, 'HH:mm:ss');
+
+      if (!expedientes[diaDoMes]) {
+        expedientes[diaDoMes] = {
+          dia: formatTime(batida.momentoDate, 'dd/MM/yyyy'),
+          pontos: [horaDaBatida],
+        };
+        return;
+      }
+      (expedientes[diaDoMes] as IExpediente).pontos.push(horaDaBatida);
+    });
+
+    return Object.values(expedientes) as IExpediente[];
   }
 }
 

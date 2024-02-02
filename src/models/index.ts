@@ -7,7 +7,7 @@ import {
   pontoSchema,
 } from './batida';
 import { sequelize } from './db';
-import { IExpediente, expedienteSchema } from './expediente';
+import { IExpediente, IExpedientePonto, expedienteSchema } from './expediente';
 import {
   IAnoMes,
   IRelatorio,
@@ -39,4 +39,5 @@ export {
   expedienteSchema,
   anoMesSchema,
   IAnoMes,
+  IExpedientePonto,
 };

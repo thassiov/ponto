@@ -1,3 +1,3 @@
-import { IExpediente, expedienteSchema } from './expediente';
+import { IExpediente, IExpedientePonto, expedienteSchema } from './expediente';
 
-export { IExpediente, expedienteSchema };
+export { IExpediente, expedienteSchema, IExpedientePonto };
