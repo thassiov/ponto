@@ -11,7 +11,7 @@ const pontoSchema = z.object({
 });
 
 const pontoDtoSchema = z.object({
-  idDeUsuario: z.number().min(1),
+  idDeUsuario: z.number().min(1).optional(),
   momento: z.string(),
   momentoDate: z.date().optional(),
 });
