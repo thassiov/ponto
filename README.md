@@ -37,7 +37,7 @@ Nesse projeto foi adicionada uma colecao do Postman chamada `controle-de-ponto.p
 
 ### Modificacoes
 
-Esse controle de ponto tem suporte a multiplos usuario (no caso um mecanismo simples onde cada ponde recebe um campo `idDeUsuario` para fazer a diferenciacao).
+Esse controle de ponto tem suporte a multiplos usuarios (no caso um mecanismo simples onde cada ponto recebe um campo `idDeUsuario` para fazer a diferenciacao).
 Caso esse `idDeUsuario` nao seja fornecido nos requests da api, o valor default é `1`.
 
 ### POST criar ponto
