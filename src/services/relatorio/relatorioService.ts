@@ -35,8 +35,6 @@ class RelatorioService {
       const segundosUteis = segundosUteisEmMes(anoMes);
       const segundosTrabalhados = this.segundosTrabalhados(pontos);
 
-      console.log(segundosTrabalhados, 'segundosTrabalhados');
-
       const diferenca = this.diferencaEntreSegundosTrabalhadosEUteis(
         segundosTrabalhados,
         segundosUteis
