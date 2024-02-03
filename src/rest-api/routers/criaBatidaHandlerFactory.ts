@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { z } from 'zod';
 
 import { pontoDtoSchema } from '../../models';
 import { BatidaService } from '../../services/batida';
@@ -24,15 +25,26 @@ function criaBatidaHandlerFactory(
         return;
       }
 
-      const result = await batidaService.criar(req.body);
+      if (!z.coerce.date().safeParse(req.body.momento).success) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          mensagem:
+            MensagensDeErro.ERRO_ENDPOINT_GERAR_RELATORIO_ANOMES_FORMATO_INVALIDO,
+        });
+        return;
+      }
+
+      const result = await batidaService.criar({
+        momento: req.body.momento,
+        idDeUsuario: req.body.idDeUsuario || 1,
+      });
 
       if (!result) {
         throw new Error('Nao foi possivel criar o ponto');
       }
 
       const expediente = await relatorioService.gerarRelatorioDoDia(
-        new Date(),
-        result
+        new Date(req.body.momento),
+        parseInt(req.body.idDeUsuario) || 1
       );
 
       res.status(StatusCodes.CREATED).json(expediente);

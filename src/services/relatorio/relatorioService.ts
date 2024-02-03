@@ -1,7 +1,9 @@
 import {
   differenceInSeconds,
+  endOfDay,
   endOfMonth,
   format as formatTime,
+  startOfDay,
   startOfMonth,
 } from 'date-fns';
 
@@ -19,8 +21,8 @@ class RelatorioService {
     idDeUsuario: number
   ): Promise<IExpediente> {
     try {
-      const de = startOfMonth(dia);
-      const ate = endOfMonth(dia);
+      const de = startOfDay(dia);
+      const ate = endOfDay(dia);
 
       const pontos = await this.repo.listarPontosDeUsuarioEmPeriodo(
         idDeUsuario,

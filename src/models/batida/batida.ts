@@ -35,7 +35,6 @@ Batida.init(
     momentoDate: {
       type: DataTypes.DATE,
       allowNull: false,
-      unique: true,
     },
   },
   {

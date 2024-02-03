@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { logger } from '../../utils/logger';
 
@@ -10,14 +11,12 @@ function errorHandler(
 ): void {
   logger.error(err.stack);
 
-  const statusCode = (err as any).statusCode || 500;
-
-  res.status(statusCode).json({
+  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     error: {
       message: err.message,
-      status: statusCode,
     },
   });
+  return;
 }
 
 export { errorHandler };

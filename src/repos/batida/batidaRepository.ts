@@ -43,7 +43,10 @@ class BatidaRepository {
             [Op.eq]: idDeUsuario,
           },
           momentoDate: {
-            [Op.between]: [de, ate],
+            [Op.and]: {
+              [Op.gte]: de,
+              [Op.lte]: ate,
+            },
           },
         },
       });
@@ -198,7 +201,7 @@ class BatidaRepository {
 
       // o tempo minimo (em minutos) ja passou
       if (
-        differenceInMinutes(inicioDoAlmoco, finalDoAlmoco) >=
+        differenceInMinutes(finalDoAlmoco, inicioDoAlmoco) >=
         configs.TEMPO_MINIMO_OBRIGATORIO_DE_ALMOCO
       ) {
         return false;

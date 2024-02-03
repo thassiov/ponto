@@ -13,9 +13,9 @@
     "dev": "nodemon",
     "dev:stdin": "nodemon -I",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "start": "ts-node ./src/index.ts",
-    "start:container": "npm run build && node ./dist/index.js",
-    "test": "jest",
+    "start": "TZ=UTC ts-node ./src/index.ts",
+    "start:container": "npm run build && TZ=UTC node ./dist/index.js",
+    "test": "TZ=UTC jest",
     "test:watch": "jest --watch",
     "test:ci": "npm run test -- --collect-coverage"
   },
