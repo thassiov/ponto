@@ -28,6 +28,8 @@ describe('REST: relatorio gerarRelatorioHandlerFactory', () => {
     const mockReq = getMockReq({
       params: {
         anoMes: mockAnoMes,
+      },
+      query: {
         idDeUsuario: mockIdDeUsuario.toString(),
       },
     });
@@ -53,6 +55,8 @@ describe('REST: relatorio gerarRelatorioHandlerFactory', () => {
     const mockReq = getMockReq({
       params: {
         anoMes: mockAnoMes,
+      },
+      query: {
         idDeUsuario: mockIdDeUsuario.toString(),
       },
     });

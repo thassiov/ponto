@@ -18,7 +18,7 @@ function gerarRelatorioHandlerFactory(
   ): Promise<void> {
     try {
       const anoMes = req.params?.anoMes as string;
-      const idDeUsuario = parseInt(req.params?.idDeUsuario as string) || 1;
+      const idDeUsuario = parseInt(req.query?.idDeUsuario as string) || 1;
 
       if (!idSchema.safeParse(idDeUsuario).success) {
         res.status(StatusCodes.BAD_REQUEST).json({

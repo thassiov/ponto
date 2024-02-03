@@ -14,7 +14,7 @@ function setRouter(services: Services): express.Router {
   );
 
   router.get(
-    '/folhas-de-ponto/:anoMes/:idDeUsuario',
+    '/folhas-de-ponto/:anoMes',
     gerarRelatorioHandlerFactory(services.relatorio)
   );
 
