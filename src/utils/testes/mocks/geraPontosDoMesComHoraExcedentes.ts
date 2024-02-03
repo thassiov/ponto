@@ -11,9 +11,9 @@ import { IAnoMes, IBatida } from '../../../models';
 import { segundosUteisEmMes } from '../../segundosUteisEmMes';
 import { getIsoDateString } from './getIsoDateString';
 
-function geraPontosDoMesComHorasDevidas(
+function geraPontosDoMesComHorasExcedentes(
   anoMes: IAnoMes,
-  horasDevidasEmSegundos: number,
+  horasExcedentesEmSegundos: number,
   idDeUsuario = 1
 ): IBatida[] {
   const [ano, mes]: string[] = anoMes.split('-');
@@ -23,15 +23,17 @@ function geraPontosDoMesComHorasDevidas(
   );
 
   const diasUteis = segundosUteisEmMes(anoMes) / 86400;
-  const miliDevidos = secondsToMilliseconds(horasDevidasEmSegundos);
-  const miliPorTurno = parseFloat((miliDevidos / diasUteis / 2).toPrecision(2));
-  let miliRestantes = miliDevidos;
+  const miliExcedentes = secondsToMilliseconds(horasExcedentesEmSegundos);
+  const miliPorTurno = parseFloat(
+    (miliExcedentes / diasUteis / 2).toPrecision(2)
+  );
+  let miliRestantes = miliExcedentes;
 
   const inicioDoMes = startOfMonth(dataBase);
   const fimDoMes = endOfMonth(dataBase);
+  const inicioDoMesDia = inicioDoMes.getDate();
   const fimDoMesDia = fimDoMes.getDate();
   const batidas: IBatida[] = [];
-  const inicioDoMesDia = inicioDoMes.getDate();
 
   for (let index = inicioDoMesDia; index <= fimDoMesDia; index++) {
     const diaDoMes = new Date(dataBase);
@@ -55,7 +57,7 @@ function geraPontosDoMesComHorasDevidas(
 
     miliRestantes -= miliARemover;
 
-    const inicioDeExpediente = addMilliseconds(
+    const inicioDeExpediente = subMilliseconds(
       inicioDeExpedienteSemAcrescimo,
       miliARemover
     );
@@ -80,7 +82,7 @@ function geraPontosDoMesComHorasDevidas(
 
     miliRestantes -= segundosAAdicionar;
 
-    const fimDoExpediente = subMilliseconds(
+    const fimDoExpediente = addMilliseconds(
       fimDoExpedienteSemAcrescimo,
       segundosAAdicionar
     );
@@ -103,4 +105,4 @@ function geraPontosDoMesComHorasDevidas(
   return batidas;
 }
 
-export { geraPontosDoMesComHorasDevidas };
+export { geraPontosDoMesComHorasExcedentes };

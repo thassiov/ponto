@@ -32,10 +32,10 @@ function geraPontosDoMesComHorasExcedentes(
   const inicioDoMes = startOfMonth(dataBase);
   const fimDoMes = endOfMonth(dataBase);
   const fimDoMesDia = fimDoMes.getDate();
-  const batidas: IBatida[] = [];
   const inicioDoMesDia = inicioDoMes.getDate();
+  const batidas: IBatida[] = [];
 
-  for (let index = inicioDoMesDia; index < fimDoMesDia; index++) {
+  for (let index = inicioDoMesDia; index <= fimDoMesDia; index++) {
     const diaDoMes = new Date(dataBase);
     diaDoMes.setDate(index);
 

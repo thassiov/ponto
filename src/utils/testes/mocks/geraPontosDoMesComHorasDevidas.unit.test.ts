@@ -1,4 +1,5 @@
 import {
+  addDays,
   differenceInBusinessDays,
   differenceInSeconds,
   endOfMonth,
@@ -14,7 +15,7 @@ describe('geraPontosDoMesComHorasDevidas', () => {
     [
       '2018-03',
       differenceInBusinessDays(
-        endOfMonth(new Date(2018, 2)),
+        addDays(endOfMonth(new Date(2018, 2)), 1),
         startOfMonth(new Date(2018, 2))
       ),
       // 10 horas
@@ -23,7 +24,7 @@ describe('geraPontosDoMesComHorasDevidas', () => {
     [
       '2019-03',
       differenceInBusinessDays(
-        endOfMonth(new Date(2019, 2)),
+        addDays(endOfMonth(new Date(2019, 2)), 1),
         startOfMonth(new Date(2019, 2))
       ),
       // 27 horas
@@ -32,7 +33,7 @@ describe('geraPontosDoMesComHorasDevidas', () => {
     [
       '2024-01',
       differenceInBusinessDays(
-        endOfMonth(new Date(2024, 0)),
+        addDays(endOfMonth(new Date(2024, 0)), 1),
         startOfMonth(new Date(2024, 0))
       ),
       // 14 horas e 14 segundos
@@ -41,7 +42,7 @@ describe('geraPontosDoMesComHorasDevidas', () => {
     [
       '2023-06',
       differenceInBusinessDays(
-        endOfMonth(new Date(2023, 5)),
+        addDays(endOfMonth(new Date(2023, 5)), 1),
         startOfMonth(new Date(2023, 5))
       ),
       // 5 horas
@@ -50,7 +51,7 @@ describe('geraPontosDoMesComHorasDevidas', () => {
     [
       '1984-08',
       differenceInBusinessDays(
-        endOfMonth(new Date(1984, 7)),
+        addDays(endOfMonth(new Date(1984, 7)), 1),
         startOfMonth(new Date(1984, 7))
       ),
       // 30 horas

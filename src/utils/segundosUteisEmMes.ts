@@ -1,4 +1,5 @@
 import {
+  addDays,
   differenceInBusinessDays,
   endOfMonth,
   hoursToSeconds,
@@ -14,10 +15,11 @@ function segundosUteisEmMes(anoMes: IAnoMes): number {
     parseInt(mes as string) - 1
   );
   const inicioDoMes = startOfMonth(dataBase);
-  const fimDoMes = endOfMonth(dataBase);
+  const fimDoMes = addDays(endOfMonth(dataBase), 1);
   const diasUteis = differenceInBusinessDays(fimDoMes, inicioDoMes);
 
   const segundosUteis = hoursToSeconds(diasUteis * 8);
+
   return segundosUteis;
 }
 

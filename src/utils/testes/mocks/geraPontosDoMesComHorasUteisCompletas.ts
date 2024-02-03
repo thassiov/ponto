@@ -12,11 +12,14 @@ function geraPontosDoMesComHorasUteisCompletas(
     parseInt(ano as string),
     parseInt(mes as string) - 1
   );
-  const inicioDoMesDia = startOfMonth(dataBase).getDate();
-  const fimDoMesDia = endOfMonth(dataBase).getDate();
+
+  const inicioDoMes = startOfMonth(dataBase);
+  const fimDoMes = endOfMonth(dataBase);
+  const inicioDoMesDia = inicioDoMes.getDate();
+  const fimDoMesDia = fimDoMes.getDate();
   const batidas: IBatida[] = [];
 
-  for (let index = inicioDoMesDia; index < fimDoMesDia; index++) {
+  for (let index = inicioDoMesDia; index <= fimDoMesDia; index++) {
     const diaDoMes = new Date(dataBase);
     diaDoMes.setDate(index);
 
