@@ -1,16 +1,14 @@
 import {
-  differenceInBusinessDays,
   differenceInSeconds,
   endOfMonth,
-  formatISODuration,
   format as formatTime,
-  hoursToSeconds,
   startOfMonth,
 } from 'date-fns';
 
 import { IAnoMes, IBatida, IExpediente, IRelatorio } from '../../models';
 import { BatidaRepository } from '../../repos/batida';
 import { MensagensDeErro, ServiceError } from '../../utils/error';
+import { segundosParaIsoDuration } from '../../utils/segundosParaIsoDuration';
 import { segundosUteisEmMes } from '../../utils/segundosUteisEmMes';
 
 class RelatorioService {
@@ -36,6 +34,9 @@ class RelatorioService {
 
       const segundosUteis = segundosUteisEmMes(anoMes);
       const segundosTrabalhados = this.segundosTrabalhados(pontos);
+
+      console.log(segundosTrabalhados, 'segundosTrabalhados');
+
       const diferenca = this.diferencaEntreSegundosTrabalhadosEUteis(
         segundosTrabalhados,
         segundosUteis
@@ -54,9 +55,9 @@ class RelatorioService {
       const relatorio: IRelatorio = {
         anoMes,
         expedientes,
-        horasTrabalhadas: formatISODuration({ seconds: segundosTrabalhados }),
-        horasExcedentes: formatISODuration({ seconds: excedente }),
-        horasDevidas: formatISODuration({ seconds: devidas }),
+        horasTrabalhadas: segundosParaIsoDuration(segundosTrabalhados),
+        horasExcedentes: segundosParaIsoDuration(excedente),
+        horasDevidas: segundosParaIsoDuration(devidas),
       };
 
       return relatorio;
@@ -72,7 +73,7 @@ class RelatorioService {
   // portanto vai ser levado em consideracao apenas pares de pontos para o calculo de duracao
   // de horas trabalhadas
   segundosTrabalhados(batidas: IBatida[]): number {
-    // a ideia e usar a propriedade 'par' como uma flag para controlar
+    // a ideia e usar a propriedade 'ponto' como uma flag para controlar
     // os pares de pontos. o primeiro elemento abre (true) e o segundo fecha (false).
     // na iteracao onde o ponto estiver aberto, sera feito o calculo entre o que
     // esta na vez ('batida') e o que esta na propriedade 'momento'. so entao o ponto
