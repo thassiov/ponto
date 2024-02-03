@@ -202,9 +202,7 @@ describe('REST: batida createBatidaHandler', () => {
     });
 
     (mockBatidaService.criar as jest.Mock).mockRejectedValueOnce(
-      new ValidationError(
-        MensagensDeErro.ERRO_CRIACAO_BATIDA_JA_REGISTRADA
-      )
+      new ValidationError(MensagensDeErro.ERRO_CRIACAO_BATIDA_JA_REGISTRADA)
     );
 
     const mockRes = getMockRes().res;

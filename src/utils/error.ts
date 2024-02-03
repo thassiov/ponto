@@ -55,4 +55,6 @@ export enum MensagensDeErro {
   ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA = 'Horário da batida é anterior a uma batida que já existe no dia',
   ERRO_CRIACAO_RELATORIO_NAO_ENCONTRADO = 'Relatório não encontrado',
   ERRO_ENDPOINT_CRIACAO_BATIDA_CAMPO_OBRIGATORIO = 'Campo obrigatório não informado',
+  ERRO_ENDPOINT_GERAR_RELATORIO_ANOMES_FORMATO_INVALIDO = 'Data e hora em formato inválido',
+  ERRO_ENDPOINT_GERAR_RELATORIO_ID_DE_USUARIO_INVALIDO = 'Id de usuario invalido',
 }
