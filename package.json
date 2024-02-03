@@ -23,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@jest-mock/express": "^2.0.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/http-status-codes": "^1.2.0",
     "@types/jest": "^29.5.12",

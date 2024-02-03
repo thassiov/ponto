@@ -3,6 +3,7 @@ import express from 'express';
 import { Services } from '../../utils/types';
 import { errorHandler } from '../middlewares/errorHandler';
 import { criaBatidaHandlerFactory } from './criaBatidaHandlerFactory';
+import { gerarRelatorioHandlerFactory } from './gerarRelatorioHandlerFactory';
 
 function setRouter(services: Services): express.Router {
   const router = express.Router();
@@ -10,6 +11,11 @@ function setRouter(services: Services): express.Router {
   router.post(
     '/batidas',
     criaBatidaHandlerFactory(services.batida, services.relatorio)
+  );
+
+  router.get(
+    '/folhas-de-ponto/:anoMes/:idDeUsuario',
+    gerarRelatorioHandlerFactory(services.relatorio)
   );
 
   router.use(errorHandler);
