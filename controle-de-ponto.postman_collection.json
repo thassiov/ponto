@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "6a7a84fe-5842-4d4a-9981-3c0cc391f762",
+		"name": "controle-de-ponto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "147807"
+	},
+	"item": [
+		{
+			"name": "bate ponto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"momento\":\"2018-08-22T16:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8080/v1/batidas",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"batidas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gera relatorio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8080/v1/folhas-de-ponto/2018-08?idDeUsuario=1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"folhas-de-ponto",
+						"2018-08"
+					],
+					"query": [
+						{
+							"key": "idDeUsuario",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,30 +1,62 @@
-# Ília - Desafio Técnico
+# Controle de ponto 
+Desafio Ília
 
-## Descrição
-Olá, e obrigado por aceitar realizar o desafio técnico do nosso processo seletivo! (:
+### Dependencias
 
-O desafio consiste na implementação de uma API de folha de ponto, descrita em api.yaml. Todas as informações necessárias sobre a construção da API estão contidas nesse arquivo.
+- docker@24
 
-O desafio será testado usando Docker. Certifique-se de que todo o ambiente necessário para a execução do projeto esteja descrito de maneira que seja possível testar o projeto apenas criando um container.
+Nao e necessario instalar node ou qualquer outra ferramenta alem do Docker.
 
-A API pode ser visualizada utilizando o [Swagger Editor](https://editor.swagger.io) com o arquivo yaml fornecido. 
+### Como executar o servidor
 
-## Q&A
-### Qual framework/linguagem devo utilizar?
-Para facilitar a avaliação do desafio, pedimos que ele seja realizado em .NET, Java ou NodeJS.
+```
+# estando na raiz do projeto, execute:
+docker compose up
+```
 
-### Como o meu projeto será avaliado?
-Os três prontos principais são os seguintes:
-- Ambiente: Como mencionado acima, é esperado que seja possível ter um ambiente com o projeto executando de maneira fácil e rápida. Qualquer instrução necessária para isso deve ser fornecida pelo desenvolvedor. Esse será o primeiro ponto a ser avaliado.
-- API: O ponto principal do teste é a implementação da API, exatamente como descrita no arquivo api.yaml. Os diferentes erros estão fornecidos como exemplos na documentação da API. Nenhum dos cenários descritos como erro na documentação deve ser permitido pelo serviço.
-- Testes: É esperado que, ao mínimo, sejam criados testes unitários para as funcionalidades implementadas no desafio.
-Além disso, naturalmente, o código do desafio será avaliado.
+O container do servidor sera criado (Dockerfile) e a aplicacao sera iniciada. Localmente, um diretorio chamado `data` sera criado na raiz do projeto a fim de manter os dados do banco salvos. Esse projeto usa SQLite.
 
-### Durante a implementação, encontrei um cenário que não está 100% claro para mim como deve ser implementado. Como devo proceder?
-Ao encontrar alguma situação além do que está descrito na documentação da API, faça da maneira que, na sua visão, faz mais sentido para o contexto de uma API de controle de folha de ponto.
+### Como parar o servidor
 
-### Terminei a implementação da API. É necessário fazer mais alguma coisa?
-Não há nenhum outro requisito fixo além dos especificados na documentação da API e nesse documento. Porém, pedimos que, dentro do prazo estabelecido, o desafio seja entregue da maneira mais completa possível. Será avaliado o que o candidato considera ser essencial para a entrega do projeto.
+```
+# O servidor ira parar, mas os dados serao persistidos no diretorio `data` local.
+# Caso seja executado `docker compose up` novamente, os dados serao restaurados
+Ctrl+c
+```
 
-### Terminei o desafio. Como faço a entrega?
-Envie-nos por favor um link com o repositório para que possamos dar uma olhada no código. 😉
+### Endpoints
+
+O container está configurado para funcionar na porta `8080` com bridge com o localhost. Os endpoints que podem ser acessados sao:
+
+- http://0.0.0.0:8080/api-docs : Especificacao OpenAPI do projeto
+- http://0.0.0.0:8080/v1 : Base URL de todas as chamadas para essa API
+
+### Recurso
+
+Nesse projeto foi adicionada uma colecao do Postman chamada `controle-de-ponto.postman_collection.json` que pode ser importada para facilidar no uso.
+
+### Modificacoes
+
+Esse controle de ponto tem suporte a multiplos usuario (no caso um mecanismo simples onde cada ponde recebe um campo `idDeUsuario` para fazer a diferenciacao).
+Caso esse `idDeUsuario` nao seja fornecido nos requests da api, o valor default é `1`.
+
+### POST criar ponto
+
+Para identificar o usuario, adicione a propriedade `idDeUsuario:<number>` ao json enviado.
+
+Exemplo
+```json
+{
+    "idDeUsuario": 1,
+    "momento": "2018-08-22T16:00:00"
+}
+```
+
+### GET gerar relatorio
+
+Para identificar o usuario, adicione o parametro `idDeUsuario` via querystring na URL
+
+Exemplo
+```json
+http://<....>/v1/folhas-de-ponto/2018-08?idDeUsuario=1
+```
