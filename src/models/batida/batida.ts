@@ -40,7 +40,7 @@ Batida.init(
   },
   {
     sequelize,
-    modelName: 'ponto',
+    modelName: 'batida',
     paranoid: true,
   }
 );
