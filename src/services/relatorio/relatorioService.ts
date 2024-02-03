@@ -103,7 +103,7 @@ class RelatorioService {
   // presume-se que um periodo valido de trabalho ocorre entre dois pontos (entrada e saida).
   // portanto vai ser levado em consideracao apenas pares de pontos para o calculo de duracao
   // de horas trabalhadas
-  segundosTrabalhados(batidas: IBatida[]): number {
+  private segundosTrabalhados(batidas: IBatida[]): number {
     // a ideia e usar a propriedade 'ponto' como uma flag para controlar
     // os pares de pontos. o primeiro elemento abre (true) e o segundo fecha (false).
     // na iteracao onde o ponto estiver aberto, sera feito o calculo entre o que

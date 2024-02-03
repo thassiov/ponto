@@ -35,7 +35,7 @@ function criaBatidaHandlerFactory(
         result
       );
 
-      res.status(StatusCodes.CREATED).json({ expediente });
+      res.status(StatusCodes.CREATED).json(expediente);
       return;
     } catch (error) {
       const errorMsg = (error as Error).message;
@@ -47,6 +47,18 @@ function criaBatidaHandlerFactory(
       ) {
         res.status(StatusCodes.BAD_REQUEST).json({
           mensagem: MensagensDeErro.ERRO_CRIACAO_BATIDA_TEMPO_MINIMO_DE_ALMOCO,
+        });
+        return;
+      }
+
+      if (
+        errorMsg.includes(
+          MensagensDeErro.ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA
+        )
+      ) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          mensagem:
+            MensagensDeErro.ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA,
         });
         return;
       }
