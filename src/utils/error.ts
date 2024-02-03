@@ -54,4 +54,5 @@ export enum MensagensDeErro {
   ERRO_CRIACAO_BATIDA_TEMPO_MINIMO_DE_ALMOCO = 'Deve haver no mínimo 1 hora de almoço',
   ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA = 'Horário da batida é anterior a uma batida que já existe no dia',
   ERRO_CRIACAO_RELATORIO_NAO_ENCONTRADO = 'Relatório não encontrado',
+  ERRO_ENDPOINT_CRIACAO_BATIDA_CAMPO_OBRIGATORIO = 'Campo obrigatório não informado',
 }

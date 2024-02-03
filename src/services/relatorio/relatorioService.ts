@@ -14,6 +14,39 @@ import { segundosUteisEmMes } from '../../utils/segundosUteisEmMes';
 class RelatorioService {
   constructor(private readonly repo: BatidaRepository) {}
 
+  async gerarRelatorioDoDia(
+    dia: Date,
+    idDeUsuario: number
+  ): Promise<IExpediente> {
+    try {
+      const de = startOfMonth(dia);
+      const ate = endOfMonth(dia);
+
+      const pontos = await this.repo.listarPontosDeUsuarioEmPeriodo(
+        idDeUsuario,
+        de,
+        ate
+      );
+
+      if (!pontos.length) {
+        throw new Error(MensagensDeErro.ERRO_CRIACAO_RELATORIO_NAO_ENCONTRADO);
+      }
+
+      const expedientes = this.gerarExpedientes(pontos);
+
+      if (!expedientes.length) {
+        throw new Error('Nao foi possivel gerar o relatorio');
+      }
+
+      return expedientes[0] as IExpediente;
+    } catch (error) {
+      throw new ServiceError('Falha ao gerar relatorio do dia', {
+        cause: error as Error,
+        details: { input: { dia, idDeUsuario } },
+      });
+    }
+  }
+
   async gerarRelatorio(
     anoMes: IAnoMes,
     idDeUsuario: number

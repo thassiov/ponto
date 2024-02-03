@@ -21,7 +21,7 @@ class BatidaService {
 
       return result;
     } catch (error) {
-      throw new ServiceError('Falha ao criar batida', {
+      throw new ServiceError('Falha ao criar batida: ', {
         cause: error as Error,
         details: { input: batida },
       });
