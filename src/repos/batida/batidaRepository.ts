@@ -201,7 +201,7 @@ class BatidaRepository {
 
       // o tempo minimo (em minutos) ja passou
       if (
-        differenceInMinutes(finalDoAlmoco, inicioDoAlmoco) >=
+        differenceInMinutes(inicioDoAlmoco, finalDoAlmoco) >=
         configs.TEMPO_MINIMO_OBRIGATORIO_DE_ALMOCO
       ) {
         return false;

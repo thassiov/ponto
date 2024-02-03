@@ -1,4 +1,4 @@
-import { addHours, addMinutes, subHours } from 'date-fns';
+import { addHours, subHours } from 'date-fns';
 import { Sequelize, Transaction } from 'sequelize';
 
 import { Batida, IBatidaDto } from '../../models';
@@ -206,12 +206,10 @@ describe('Batida repo', () => {
 
     describe('verificacao de horario de almoco', () => {
       it('verifica que o usuario nao tem o tempo minimo de almoco decorrido', async () => {
-        const mockMinutosDeDiferenca = 59;
-        const mockBatidaDate = new Date();
         const mockBatida = {
           idDeUsuario: 1,
           momento: getIsoDateString(),
-          momentoDate: mockBatidaDate,
+          momentoDate: new Date(2018, 7, 3, 8, 0, 0),
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
@@ -219,7 +217,7 @@ describe('Batida repo', () => {
         jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([
           {} as any as Batida,
           {
-            get: () => addMinutes(mockBatidaDate, mockMinutosDeDiferenca),
+            get: () => new Date(2018, 7, 3, 7, 59, 0),
           } as any as Batida,
         ]);
 
@@ -236,12 +234,10 @@ describe('Batida repo', () => {
       });
 
       it('verifica que o usuario tem o tempo minimo de almoco decorrido', async () => {
-        const mockMinutosDeDiferenca = 60;
-        const mockBatidaDate = new Date();
         const mockBatida = {
           idDeUsuario: 1,
           momento: getIsoDateString(),
-          momentoDate: mockBatidaDate,
+          momentoDate: new Date(2018, 7, 3, 8, 0, 0),
         } as IBatidaDto;
 
         const sequelize = new Sequelize();
@@ -249,7 +245,7 @@ describe('Batida repo', () => {
         jest.spyOn(Batida, 'findAll').mockResolvedValueOnce([
           {} as any as Batida,
           {
-            get: () => addMinutes(mockBatidaDate, mockMinutosDeDiferenca),
+            get: () => new Date(2018, 7, 3, 9, 0, 0),
           } as any as Batida,
         ]);
 

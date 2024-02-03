@@ -1,5 +1,3 @@
-import { nextSaturday, nextSunday } from 'date-fns';
-
 import { IBatidaDto } from '../../models';
 import { BatidaRepository } from '../../repos/batida';
 import { MensagensDeErro } from '../../utils/error';
@@ -24,7 +22,7 @@ describe('batida service', () => {
     it('cria uma nova batida de ponto', async () => {
       const mockBatida = {
         idDeUsuario: 1,
-        momento: getIsoDateString(),
+        momento: getIsoDateString(new Date(2018, 7, 6)),
       } as IBatidaDto;
 
       (mockBatidaRepo.jaFoiRegistrada as jest.Mock).mockResolvedValueOnce(
@@ -53,7 +51,7 @@ describe('batida service', () => {
     it('falha ao tentar criar uma batida no dia de sabado', async () => {
       const mockBatida = {
         idDeUsuario: 1,
-        momento: getIsoDateString(nextSaturday(new Date())),
+        momento: getIsoDateString(new Date(2018, 7, 4)),
       } as IBatidaDto;
 
       const batidaService = new BatidaService(
@@ -68,7 +66,7 @@ describe('batida service', () => {
     it('falha ao tentar criar uma batida no dia de domingo', async () => {
       const mockBatida = {
         idDeUsuario: 1,
-        momento: getIsoDateString(nextSunday(new Date())),
+        momento: getIsoDateString(new Date(2018, 7, 5)),
       } as IBatidaDto;
 
       const batidaService = new BatidaService(
@@ -81,7 +79,7 @@ describe('batida service', () => {
     });
 
     it('falha ao tentar criar uma mesma batida mais de uma vez', async () => {
-      const mockData = new Date();
+      const mockData = new Date(2018, 7, 6);
       const mockIsoData = getIsoDateString(mockData);
 
       const mockBatida = {
@@ -101,7 +99,7 @@ describe('batida service', () => {
     });
 
     it('falha ao tentar criar uma batida cuja hora e anterior a ultima batida registrada no dia', async () => {
-      const mockData = new Date();
+      const mockData = new Date(2018, 7, 6);
       const mockIsoData = getIsoDateString(mockData);
 
       const mockBatida = {
@@ -126,7 +124,7 @@ describe('batida service', () => {
     });
 
     it('falha ao tentar criar mais de 4 batidas em um dia', async () => {
-      const mockData = new Date();
+      const mockData = new Date(2018, 7, 6);
       const mockIsoData = getIsoDateString(mockData);
 
       const mockBatida = {
@@ -151,7 +149,7 @@ describe('batida service', () => {
     });
 
     it('falha ao tentar criar batidas sem ter no minimo 1 hora de almoco', async () => {
-      const mockData = new Date();
+      const mockData = new Date(2018, 7, 6);
       const mockIsoData = getIsoDateString(mockData);
 
       const mockBatida = {
