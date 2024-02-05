@@ -29,8 +29,12 @@ async function startApi(
   }
 
   api.use(pinoHttp());
-  const path = resolve('api.yaml');
+  const path = resolve('./api.yaml');
+
+  console.log(path);
   const file = await readFile(path, 'utf8');
+
+  console.log(file);
   const swaggerDocument = yaml.parse(file);
   api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
