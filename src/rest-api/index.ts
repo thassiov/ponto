@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Express } from 'express';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import pinoHttp from 'pino-http';
@@ -10,16 +10,25 @@ import { logger } from '../utils/logger';
 import { Services } from '../utils/types';
 import { setRouter } from './routers';
 
-const api = express();
+require('express-async-errors');
 
-api.use(express.json());
-api.use(express.urlencoded());
-api.use(pinoHttp());
+async function startApi(
+  services: Services,
+  listen = true
+): Promise<Express | void> {
+  const api = express();
 
-async function startApi(services: Services): Promise<void> {
+  api.use(express.json());
+  api.use(express.urlencoded({ extended: true }));
   const router = setRouter(services);
   api.use('/v1', router);
 
+  if (!listen) {
+    // helper para os testes de integracao
+    return api;
+  }
+
+  api.use(pinoHttp());
   const path = resolve('api.yaml');
   const file = await readFile(path, 'utf8');
   const swaggerDocument = yaml.parse(file);

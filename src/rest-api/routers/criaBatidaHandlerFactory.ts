@@ -18,7 +18,7 @@ function criaBatidaHandlerFactory(
   ): Promise<void> {
     try {
       if (!pontoDtoSchema.safeParse(req.body).success) {
-        res.status(StatusCodes.BAD_REQUEST).json({
+        res.status(StatusCodes.BAD_REQUEST).type('application/json').json({
           mensagem:
             MensagensDeErro.ERRO_ENDPOINT_CRIACAO_BATIDA_CAMPO_OBRIGATORIO,
         });
@@ -26,7 +26,7 @@ function criaBatidaHandlerFactory(
       }
 
       if (!z.coerce.date().safeParse(req.body.momento).success) {
-        res.status(StatusCodes.BAD_REQUEST).json({
+        res.status(StatusCodes.BAD_REQUEST).type('application/json').json({
           mensagem:
             MensagensDeErro.ERRO_ENDPOINT_GERAR_RELATORIO_ANOMES_FORMATO_INVALIDO,
         });
@@ -47,7 +47,7 @@ function criaBatidaHandlerFactory(
         parseInt(req.body.idDeUsuario) || 1
       );
 
-      res.status(StatusCodes.CREATED).json(expediente);
+      res.status(StatusCodes.CREATED).type('application/json').json(expediente);
       return;
     } catch (error) {
       const errorMsg = (error as Error).message;
@@ -57,7 +57,7 @@ function criaBatidaHandlerFactory(
           MensagensDeErro.ERRO_CRIACAO_BATIDA_TEMPO_MINIMO_DE_ALMOCO
         )
       ) {
-        res.status(StatusCodes.BAD_REQUEST).json({
+        res.status(StatusCodes.BAD_REQUEST).type('application/json').json({
           mensagem: MensagensDeErro.ERRO_CRIACAO_BATIDA_TEMPO_MINIMO_DE_ALMOCO,
         });
         return;
@@ -68,7 +68,7 @@ function criaBatidaHandlerFactory(
           MensagensDeErro.ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA
         )
       ) {
-        res.status(StatusCodes.BAD_REQUEST).json({
+        res.status(StatusCodes.BAD_REQUEST).type('application/json').json({
           mensagem:
             MensagensDeErro.ERRO_CRIACAO_BATIDA_ANTERIOR_A_BATIDA_PREVIA,
         });
@@ -80,7 +80,7 @@ function criaBatidaHandlerFactory(
           MensagensDeErro.ERRO_CRIACAO_BATIDA_NUMERO_MAXIMO_REGISTRADO
         )
       ) {
-        res.status(StatusCodes.BAD_REQUEST).json({
+        res.status(StatusCodes.BAD_REQUEST).type('application/json').json({
           mensagem:
             MensagensDeErro.ERRO_CRIACAO_BATIDA_NUMERO_MAXIMO_REGISTRADO,
         });
@@ -90,7 +90,7 @@ function criaBatidaHandlerFactory(
       if (
         errorMsg.includes(MensagensDeErro.ERRO_CRIACAO_BATIDA_FIM_DE_SEMANA)
       ) {
-        res.status(StatusCodes.BAD_REQUEST).json({
+        res.status(StatusCodes.BAD_REQUEST).type('application/json').json({
           mensagem: MensagensDeErro.ERRO_CRIACAO_BATIDA_FIM_DE_SEMANA,
         });
         return;
@@ -99,7 +99,7 @@ function criaBatidaHandlerFactory(
       if (
         errorMsg.includes(MensagensDeErro.ERRO_CRIACAO_BATIDA_JA_REGISTRADA)
       ) {
-        res.status(StatusCodes.CONFLICT).json({
+        res.status(StatusCodes.CONFLICT).type('application/json').json({
           mensagem: MensagensDeErro.ERRO_CRIACAO_BATIDA_JA_REGISTRADA,
         });
         return;
