@@ -1,6 +1,8 @@
 # Controle de ponto 
 Desafio Ília
 
+![Testes unitarios e de integracao](https://github.com/thassio/ponto/actions/workflows/test/badge.svg)
+
 ### Dependencias
 
 - docker@24
