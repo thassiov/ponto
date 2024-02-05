@@ -31,6 +31,7 @@ function geraPontosDoMesComHorasDevidas(
   const fimDoMes = endOfMonth(dataBase);
   const fimDoMesDia = fimDoMes.getDate();
   const batidas: IBatida[] = [];
+  let idBatidaCounter = 1;
   const inicioDoMesDia = inicioDoMes.getDate();
 
   for (let index = inicioDoMesDia; index <= fimDoMesDia; index++) {
@@ -92,11 +93,13 @@ function geraPontosDoMesComHorasDevidas(
       fimDoExpediente,
     ].forEach((momentoDate: Date) => {
       batidas.push({
-        id: Math.floor(Math.random() * 1000),
+        id: idBatidaCounter,
         idDeUsuario,
         momentoDate,
         momento: getIsoDateString(momentoDate),
       });
+
+      idBatidaCounter++;
     });
   }
 

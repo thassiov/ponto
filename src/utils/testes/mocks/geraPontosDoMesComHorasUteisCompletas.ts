@@ -18,6 +18,7 @@ function geraPontosDoMesComHorasUteisCompletas(
   const inicioDoMesDia = inicioDoMes.getDate();
   const fimDoMesDia = fimDoMes.getDate();
   const batidas: IBatida[] = [];
+  let idBatidaCounter = 1;
 
   for (let index = inicioDoMesDia; index <= fimDoMesDia; index++) {
     const diaDoMes = new Date(dataBase);
@@ -43,11 +44,13 @@ function geraPontosDoMesComHorasUteisCompletas(
       fimDoExpediente,
     ].forEach((momentoDate: Date) => {
       batidas.push({
-        id: Math.floor(Math.random() * 1000),
+        id: idBatidaCounter,
         idDeUsuario,
         momentoDate,
         momento: getIsoDateString(momentoDate),
       });
+
+      idBatidaCounter++;
     });
   }
 
