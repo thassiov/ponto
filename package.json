@@ -20,7 +20,7 @@
     "test:integration": "DB_FILE=:memory: npm test -- integration.test.ts",
     "test:unit:watch": "npm run test:unit -- --watch",
     "test:integration:watch": "npm run test:integration -- --watch",
-    "test:ci": "npm run test -- --collect-coverage"
+    "test:ci": "npm run test:unit && npm run test:integration"
   },
   "keywords": [],
   "author": "",
