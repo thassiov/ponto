@@ -1,7 +1,7 @@
 # Controle de ponto 
 Desafio Ília
 
-![Testes uni/int](https://github.com/thassiov/ponto/actions/workflows/test.yaml/badge.svg)
+![Testes](https://github.com/thassiov/ponto/actions/workflows/test.yaml/badge.svg)
 
 ### Dependencias
 

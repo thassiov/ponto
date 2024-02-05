@@ -1,4 +1,4 @@
-name: Testes unitarios
+name: Testes unitarios e de integracao
 
 on: [push]
 
