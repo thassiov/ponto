@@ -4,8 +4,8 @@ import { IAnoMes, IBatida } from '../../models';
 import { BatidaRepository } from '../../repos/batida';
 import { MensagensDeErro } from '../../utils/error';
 import { segundosParaIsoDuration } from '../../utils/segundosParaIsoDuration';
-import { geraPontosDoMesComHorasExcedentes } from '../../utils/testes/mocks/geraPontosDoMesComHoraExcedentes';
 import { geraPontosDoMesComHorasDevidas } from '../../utils/testes/mocks/geraPontosDoMesComHorasDevidas';
+import { geraPontosDoMesComHorasExcedentes } from '../../utils/testes/mocks/geraPontosDoMesComHorasExcedentes';
 import { geraPontosDoMesComHorasUteisCompletas } from '../../utils/testes/mocks/geraPontosDoMesComHorasUteisCompletas';
 import { RelatorioService } from './relatorioService';
 
